@@ -1,11 +1,10 @@
 Package: hjl246
 Type: Package
-Title: What the Package Does (Title Case)
+Title: GEOG246 coursework
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Harrison Leduc
+Maintainer: Harrison Leduc <HLeduc@clarku.edu>
+Description: Package for GEOG246 class assignments.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
