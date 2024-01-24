@@ -18,13 +18,22 @@ knitr::opts_chunk$set(
 
 'hjl246' is the package I am developing for the coursework component of GEOG246-346 (Geospatial Analysis with R).
 
-It currently has one function, 'my_number_checker', which is executed as follows:
+It currently has two functions, 'my_number_checker', which is executed as follows:
 
 ```{r setup}
 library(hjl246)
 my_number_checker(1)
 my_number_checker(7)
 my_number_checker(20)
+```
+
+and 'my_multiplier', which is executed as follows:
+
+```{r setup}
+library(hjl246)
+my_multiplier(1)
+my_multiplier(7)
+my_multiplier(20)
 ```
 
 I will be adding others, and updating this vignette as we go.
