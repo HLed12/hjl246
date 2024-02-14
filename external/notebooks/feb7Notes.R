@@ -1,0 +1,70 @@
+# Date: February 7, 2024
+
+### Vectors ###
+v1 <- letters[1:7]
+print(v1)
+
+print(paste("the letter is ", v1))
+print(paste0("the letter is ", v1))
+
+
+### Matrix ###
+
+z1 <- 1:9
+m1 <- matrix(z1, nrow = 3, byrow = TRUE)
+m2 <- cbind(z1 = 1:3, z2 = 1:3, z3 = 0:0)
+print(m1)
+print(m2)
+
+# Matrix can only have one data type. The dominant type becomes the data type
+# for the entire matrix. Data Frames are better because of this, goes by column
+
+m3 <- cbind(a = 1:3, b = 4:6, c = 7:9)
+print(m3)
+m3[1, ]
+m3[, 2]  #NOTE THE STYLE WRITING!
+m3[1, 3]
+m3[4]  #Matrix are indexed going top-down in columns
+length(m3)  #Gives number of elements in the matrix (9)
+m3[length(m3)]  #Gives the index 9 of the matrix (last number)
+
+# Below breaks the rules! Total elements must be divisible by the total rows
+m4 <- matrix(1:10, nrow = 3.333, byrow = TRUE)
+print(m4)
+
+# Set objects equal to each row/column then use cbind or rbind so the actual
+# row or column can be the object name instead of "[,1]"
+
+# can also use rownames and paste0
+print(m3)
+rownames(m3) <- paste0("r", 1:3)
+print(m3)
+# m3 <- unname(m3)
+# print(m3)
+
+### Lists ###
+l <- list("a", 1, 0.5, TRUE)
+print(l)
+l[[1]]
+l[1]
+
+l2 <- list(l, "test", matrix(1:9, nrow = 3))
+print(l2)
+l2[[1]]  #double bracket prints the indexes of the element in its original format
+l2[1]  #single bracket prints the index of the matrix AND the index of the element
+
+### Data Frames ###
+d <- data.frame(numbers = 1:3, abc = letters[1:3])
+print(d)
+d
+rownames(d) <- paste0("r", 1:3)
+d
+str(d)  #shows structure
+str(m3)
+
+d$numbers
+d[, "numbers"]
+d[1, "numbers"]
+d[1, ]
+d["numbers"]
+d[["numbers"]]

@@ -1,0 +1,43 @@
+---
+
+##missing work up here!
+# he named file class-work
+
+
+## Class work on `r Sys.Date()`
+### Level-3 section header
+
+```{r}
+# This code makes a vector of 1:10 and then plots it
+a <- 1:10
+plot(a, a * 10)
+
+
+```
+
+
+## Datasets
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+# ls lists what objects are in your global environment
+ls()
+data(farmers_env, package = "geospaar")
+ls()
+rm(list = ls())
+ls()
+library(geospaar)
+ls()
+# Since we check the geospaar library. we can now access the data without putting it into our environment
+# Known as a "lazy load"
+farmers_env
+ls()
+```
+
+
+### Testing code chunk options
+```{r, eval=TRUE, out.width="50%", fig.align='center', fig.cap="A figure", echo=FALSE}
+d <- 1:100
+plot(d, (d - 50)^2)
+```
+
+
+
