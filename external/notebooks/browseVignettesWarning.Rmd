@@ -1,0 +1,12 @@
+Personal-use warning (NOTE TO SELF):
+
+Because this package uses Docker...
+
+brownVignettes("hjl246") will bring you to the correct page. However, clicking 
+'HTML', 'source' R code' for each vignette will NOT work.
+
+i.e. http://localhost:8787/library/hjl246/doc/my_first_vignette.html
+
+Must add 'help/' portion to link to gain access:
+
+http://localhost:8787/help/library/hjl246/doc/my_first_vignette.html
