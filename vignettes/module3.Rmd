@@ -1,0 +1,23 @@
+---
+title: "Module 3"
+author: "Harrison Leduc"
+date: "2024-01-19"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{module3}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+```{r, error = TRUE}
+library(hjl246)
+```
