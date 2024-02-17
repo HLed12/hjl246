@@ -16,8 +16,115 @@ knitr::opts_chunk$set(
 )
 ```
 
+This vignette covers Unit 1 Module 3. Tasks are numbered and in order. This vignette works with a newly implemented function, 'my_calc'.
 
+1. Vectors
 
 ```{r, error = TRUE}
 library(hjl246)
+set.seed(1)
+v1 <- sample(0:100, 20, replace = TRUE)
+v1
+
+set.seed(1)
+v2 <- sample(1:10, 20, replace = TRUE)
+v2
+
+set.seed(1)
+v3 <- runif(20, 0, 1)
+v3
+
+v4 <- sample(LETTERS[v2], 20)
+v4
+
+
+
 ```
+
+2. Matrices
+
+```{r, error = TRUE}
+library(hjl246)
+m1 <- matrix(c(v1, v2), ncol = 2)
+m1
+
+m2 <- matrix(c(v2, v3), ncol = 2)
+m2
+
+m3 <- matrix(c(v3, v4), ncol = 2)
+m3
+```
+
+3. Data Frame
+
+```{r, error = TRUE}
+library(hjl246)
+DF <- data.frame(v1, v2, v3, v4)
+DF
+
+colnames(DF) <- c("a", "b", "c", "grp")
+DF
+```
+
+4. 'my_calc' Examples
+
+```{r, error = TRUE}
+library(hjl246)
+s1 <- my_calc(v1, v2, "sum")
+s1
+d1 <- my_calc(v1, v2, "divide")
+d1
+s2 <- my_calc(v2, v3, "sum")
+s2
+d2 <- my_calc(v2, v3, "divide")
+d2
+s3 <- my_calc(v1, v3, "sum")
+s3
+d3 <- my_calc(v1, v3, "divide")
+d3
+s4 <- my_calc(m1, m1, "sum")
+s4
+d4 <- my_calc(m1, m1, "divide")
+d4
+s5 <- my_calc(m1, m2, "sum")
+s5
+d5 <- my_calc(m1, m2, "divide")
+d5
+
+
+df1 <- my_calc(DF[1, 1], DF[1, 2], "multiply")
+df1
+df2 <- my_calc(DF[1:10, 1:3], DF[1:10, 1:3], "multiply")
+df2
+df3 <- my_calc(DF[which(DF[, "grp"] == "E"), c("a", "b")], DF[which(DF[, "grp"] == "E"), "c"], "divide")
+df3
+
+DF[which(DF[, "grp"] == "E"), c("a", "b")] / DF[which(DF[, "grp"] == "E"), "c"]
+```
+
+5. *apply Examples
+
+```{r, error = TRUE}
+library(hjl246)
+l = list(v1, m1, m2)
+l
+
+l1 <- lapply(l, sum)
+l1
+
+
+l2 <- lapply(1:length(l), function(x) {
+    o <- my_calc(l[[x]], v2, "multiply")
+    return(o)
+})
+l2
+
+
+l3 <- sapply(1:length(l), function(x) {
+    o <- my_calc(l[[x]], v2, "multiply")
+    return(o)
+})
+l3
+```
+
+

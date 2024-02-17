@@ -1,6 +1,6 @@
 #' A calculator function
 #'
-#' @description This function allows you to multiply, divide, add, or
+#' @description This function allows you to multiply, divide, sum, or
 #' subtract two inputted numbers.
 #' @param x A vector or matrix
 #' @param y A vector or matrix

@@ -14,7 +14,7 @@ my_calc(x, y, fun)
 \item{fun}{A string}
 }
 \description{
-This function allows you to multiply, divide, add, or
+This function allows you to multiply, divide, sum, or
 subtract two inputted numbers.
 }
 \examples{
