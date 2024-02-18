@@ -1,0 +1,67 @@
+---
+title: "feb14ClassExamples_Unit1Mod3Questions"
+author: "Harrison Leduc"
+date: "2024-02-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In-class examples feb 14 slides
+```{r}
+set.seed(50)
+dat <- data.frame(
+  V1 = 1:20,
+  V2 = sample(1:100, 20, replace = TRUE),
+  V3 = runif(20, 0, 50),
+  V4 = sample(LETTERS[1:5], 20, replace = TRUE)
+)
+
+dat
+
+
+for (i in 1:nrow(dat)) {
+  o <- sum(dat[i, c("V1", "V2", "V3")])
+  print(o)
+}
+
+sapply(1:nrow(dat), function(x) {
+  o <- sum(dat[x, c("V1", "V2", "V3")])
+  return(o)
+})
+
+lapply(1:nrow(dat), function(x) {
+  o <- sum(dat[x, c("V1", "V2", "V3")])
+  return(o)
+})
+
+rowSums(dat[, c("V1", "V2", "V3")])
+
+
+set.seed(50)
+dat <- data.frame(
+  V1 = 1:20, 
+  V2 = sample(1:100, 20, replace = TRUE),
+  V3 = runif(20, 0, 50),
+  V4 = sample(LETTERS[1:5], 20, replace = TRUE)
+)
+
+mean(dat[which(dat[, "V4"] == "E"), "V3"])
+
+```
+
+
+Unit 1 Module 3 questions:
+Question: why shouldn’t you use the name “df” to name this object?
+  •	df is very vague//lacks description and can be easily overwritten.
+Question: why is it okay to rename a column in DF “c”, but not to rename v3 as c?
+  •	The actual object, v3, should never be named c due to the function concatenate (combine) and how this could create issues with mirroring.
+Look at the str of DF. What kind of data type is “grp”? How would you change it between character and factor and back again?
+  •	Grp is a chr type (character). To change this to factor you could write
+•	DF$grp <- as.factor(DF$grp)
+•	To change it back:
+  •	DF$grp <- as.character(DF$grp)
+
+
