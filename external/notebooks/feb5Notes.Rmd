@@ -1,11 +1,18 @@
 ---
+title: "feb5Notes"
+author: "Harrison Leduc"
+date: "2024-02-05"
+output: html_document
+---
 
-##missing work up here!
-# he named file class-work
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 
-## Class work on `r Sys.Date()`
-### Level-3 section header
+
+Class work on `r Sys.Date()`
+Level-3 section header uses three pounds: '###'
 
 ```{r}
 # This code makes a vector of 1:10 and then plots it
@@ -16,7 +23,7 @@ plot(a, a * 10)
 ```
 
 
-## Datasets
+Data sets
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
 # ls lists what objects are in your global environment
 ls()
@@ -33,7 +40,7 @@ ls()
 ```
 
 
-### Testing code chunk options
+Testing code chunk options
 ```{r, eval=TRUE, out.width="50%", fig.align='center', fig.cap="A figure", echo=FALSE}
 d <- 1:100
 plot(d, (d - 50)^2)
