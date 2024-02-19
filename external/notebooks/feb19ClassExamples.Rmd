@@ -1,0 +1,61 @@
+---
+title: "feb19ClassExamples"
+author: "Harrison Leduc"
+date: "2024-02-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r}
+dat <- data.frame(
+  V1 = 1:20,
+  V2 = sample(1:100, 20, replace = TRUE),
+  V3 = runif(20, 0, 50),
+  V4 = sample(LETTERS[1:5], 20, replace = TRUE)
+)
+
+rm(l) #removes l from environment. Good process for testing errors in code
+
+#l <- list()
+l <- lapply(c(5, 10, 20), function(x) {
+     dat$V2 <- dat$V2 * x
+     #l[[i]] <- dat 
+     # Doesn't like the single brackets but still works
+     # double brackets remove the warnings
+     # INSTEAD, JUST LEAVE IT AS dat. Also lets you not create an empty list B4
+     dat
+})
+l
+
+# Official solution -------
+l1 <- lapply(c(5, 10, 20), function(x) {
+  new_dat <- dat
+  new_dat$V2 <- new_dat$V2 * x
+  new_dat
+})
+l1
+
+library(dplyr)
+dat2 <- dat
+dat2
+# Below example only shows lines where the "> 40" occurs
+dat2 %>% 
+  filter(V3 > 40) %>% 
+  mutate(V3 = 40)
+
+# Using dplyr ----------
+dat2 %>%
+  mutate(V3 = ifelse(V3 > 40, 40, V3))
+
+# Base solution -------
+dat2[dat2$V3 > 40, "V3"] <- 40
+dat2
+```
+
+
