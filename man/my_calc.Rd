@@ -11,7 +11,7 @@ my_calc(x, y, fun)
 
 \item{y}{A vector or matrix}
 
-\item{fun}{A string}
+\item{fun}{A string - 'sum', 'subtract', 'divide', or 'multiply'}
 }
 \description{
 This function allows you to multiply, divide, sum, or

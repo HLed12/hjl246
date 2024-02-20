@@ -4,7 +4,7 @@
 #' subtract two inputted numbers.
 #' @param x A vector or matrix
 #' @param y A vector or matrix
-#' @param fun A string
+#' @param fun A string - 'sum', 'subtract', 'divide', or 'multiply'
 #' @export
 #' @examples
 #' x <- 1:5
