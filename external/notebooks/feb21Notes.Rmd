@@ -1,0 +1,29 @@
+---
+title: "feb21Notes"
+author: "Harrison Leduc"
+date: "2024-02-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+for(i in 1:10) {
+  print(i * 10)
+}
+#forgot the 'i in' portion...
+
+v <- NULL
+sapply(1:10, function(x) {
+  v[x] <- x * 10
+})
+
+#better to do below
+v <- sapply(1:10, function(x) x * 10)
+v
+
+
+```
