@@ -1,0 +1,25 @@
+---
+title: "module4"
+author: "Harrison Leduc"
+date: "2024-02-25"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{module4}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette covers Unit 1 Module 4. This vignette works with the crop_ylds dataset.
+
+```{r, error = TRUE}
+library(hjl246)
+
+
+```
