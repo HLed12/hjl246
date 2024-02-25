@@ -1,0 +1,46 @@
+---
+title: "feb21ClassExamples"
+author: "Harrison Leduc"
+date: "2024-02-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Use lapply to make three data.frames captured in a list l, each composed of one randomly sampled column v1 (selecting from integers 1:10, with length = 20), and the second being v2 composed of lowercase letters, randomly selected using sample, also of length 20.
+
+The iterator in the lapply should be 10, 20, 30, which become the random seeds for the sampling (in the body of the lapply)
+
+After making l, use a for loop to iterate through each element of l, writing each out to a folder external/data/ in your project.
+
+Change the name of each as part of the iteration, so that l[[1]] is written out as external/data/dataset1.csv, etc. Hint: you can use paste0 to make each file path and name.
+
+After writing these out, use another lapply to read back in the three datasets into a new list l2. Bonus: Use dir to programmatically read in the file paths from your external/data folder.
+
+```{r}
+library(readr)
+l <- lapply(c(10, 20, 30), function(x) {
+  set.seed(x)
+  v1 = sample(1:10, 20, replace = TRUE)
+  v2 = sample(letters[], 20, replace = TRUE)
+  data.frame(v1, v2)
+  
+})
+
+for(i in 1:3) {
+  x <- l[[i]]
+  y <- paste0("external/data/dataset", i, ".csv")
+  readr::write_csv(x, y)
+}
+
+
+lapply(1:3, function(x) {
+  b <- dir("external/data/", pattern = ("dataset.*.csv"), full.names = TRUE)
+  l2 <- read.csv(b)
+
+})
+
+
+```
