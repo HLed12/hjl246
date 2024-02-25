@@ -1,5 +1,5 @@
 ---
-title: "feb14ClassExamples_Unit1Mod3Questions"
+title: "feb14ClassExamples"
 author: "Harrison Leduc"
 date: "2024-02-18"
 output: html_document
@@ -9,7 +9,16 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In-class examples feb 14 slides
+In-class examples feb 14 slides.
+
+Use a for to iterate over each row of dat and calculate it's sum
+
+Do the same with lapply and sapply
+
+Do the same using rowSums
+
+Select rows from dat containing the letter "E" in V4, and take the mean of values from the result in column V3
+
 ```{r}
 set.seed(50)
 dat <- data.frame(

@@ -10,7 +10,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+February 19 In-class work.
 
+(Data generation) - 
+dat, a data.frame built from V1, V2, V3, and V4, where:
+V1 = 1:20
+V2 is a random sample between 1:100
+V3 is drawn from a random uniform distribution between 0 and 50
+V4 is a random selection of the letters A-E
+(optional) Use set.seed(50)
+
+In-Class:
+
+Using an lapply, create an output list of 3 data.frames in which the first data.frame has it's V2 column multiplied by 5, the second data.frame has V2 multiplied by 10, and the third has V2 multipled by 20. Use dat as the starting data.frame.
+
+Make a data.frame called dat2 that is a copy of dat. Update dat2 so that its V3 is set to 40 in the places where values > 40
 
 ```{r}
 dat <- data.frame(
