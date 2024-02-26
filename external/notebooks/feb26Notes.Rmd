@@ -9,6 +9,44 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+A continuation from 'feb21ClassExamples.Rmd'.
 ```{r}
+
+fs <- here::here(
+  dir("external/data", pattern = ".csv", full.names = TRUE)
+)
+fs
+
+l2 <- lapply(fs, readr::read_csv)
+
+do.call(rbind, l2)
+# or can use library(dplyr)
+# bind_rows(l2)
+# to bind by columns: do.call(cbind, l2) NOT GOOD FOR THIS EXAMPLE
+# or bind_cols(l2) # prevents duplicate column names (they are ugly though)
+
+library(readr)
+library(dplyr)
+l2 <- lapply(fs, function(x) {
+  readr::read_csv(x) %>% 
+    mutate(grp = gsub("dataset|.csv", "", basename(x))) ### %>% 
+  ### mutate(id = 1:nrow)
+  # if errors use "dataset|\\.csv". NOTICE IT IS A BAR, not a 1.
+  # basename strips directory to give only file name)
+  # gsub will substitue one pattern with another. 
+})
+l2
+
+dat <- bind_rows(l2)
+dat
+# tidy principle if the values in a column are there own variable. make them
+# a column. Pretend grp is "crop_yeild", "wheat_produced", "etc".
+
+library(tidyr)
+dat %>% 
+  #mutate(id = 1:nrow(.)) %>% 
+  pivot_wider(names_from = grp, values_from = v1)
+?pivot_wider
+dat
 
 ```
