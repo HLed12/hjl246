@@ -1,0 +1,14 @@
+---
+title: "feb26Notes"
+author: "Harrison Leduc"
+date: "2024-02-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+```
