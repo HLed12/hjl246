@@ -26,21 +26,41 @@ l <- lapply(c(10, 20, 30), function(x) {
   v1 = sample(1:10, 20, replace = TRUE)
   v2 = sample(letters[], 20, replace = TRUE)
   data.frame(v1, v2)
-  
 })
 l
 
-for(i in 1:3) {
+### Compact approach
+l1 <- lapply(c(10, 20, 30), function(x) {
+  set.seed(x)
+  data.frame(
+    v1 = sample(1:10, 20, replace = TRUE), 
+    v2 = sample(letters[], 20, replace = TRUE)
+  )
+})
+l1
+
+for(i in 1:length(l)) {
   x <- l[[i]]
   y <- paste0("external/data/dataset", i, ".csv")
   readr::write_csv(x, y)
 }
 
+### Compact approach
+#for(i in 1:length(l)) {
+#  readr::write_csv(l[[i]], paste0("external/data/dataset", i, ".csv"))
+#}
 
-l2 <- lapply(1:3, function(x) {
-  read.csv(dir("external/data", pattern = (paste0("dataset", x, ".csv")), full.names = TRUE))
-
+l2 <- lapply(1:length(l), function(x) {
+  readr::read_csv(dir("external/data", pattern = (paste0("dataset", x, ".csv")), full.names = TRUE))
 })
 l2
+
+
+### Compact approach
+fs <- here::here(
+  dir("external/data", pattern = ".csv", full.names = TRUE)
+)
+
+l3 <- lapply(fs, readr::read_csv)
 
 ```
