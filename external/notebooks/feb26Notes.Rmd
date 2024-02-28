@@ -46,7 +46,9 @@ library(tidyr)
 dat %>% 
   #mutate(id = 1:nrow(.)) %>% 
   pivot_wider(names_from = grp, values_from = v1)
-?pivot_wider
-dat
 
+# The approach professor Estes wanted
+dat %>% 
+  select(-v2) %>% 
+  pivot_wider(names_from = grp, values_from = v1)
 ```
