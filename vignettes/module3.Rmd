@@ -18,6 +18,34 @@ knitr::opts_chunk$set(
 
 This vignette covers Unit 1 Module 3. Tasks are numbered and in order. This vignette works with a newly implemented function, 'my_calc'.
 
+Questions:
+"Why shouldn’t you use the name “df” to name this object?"
+  df could create a conflict with other package function names. For instance, 
+ I believe there is a density function that is stated as df.
+ Also df is a common 'junk name' for people creating data frames. 
+ Something more specific should be used than DF, however, it is a step up 
+ from df. df being a junk name means it can easily be overwritten and 
+ lacks a description due to its vagueness. 
+ 
+"Why is it okay to rename a column in DF “c”, but not to rename v3 as c?"
+  Renaming a column in DF "c" only adjusts the DF. You should not rename v3 to c
+ because v3 is the actual object, and c is the use of concatenate (combine) 
+ function. This could result in conflict errors or have mirroring issues. 
+ Overall, it is unwise to use c for the literal object. 
+
+"What kind of data type is “grp”? How would you change it between character
+and factor and back again?"
+  Grp is a chr type (character). To change this to factor you could write:
+```{r}
+DF$grp <- as.factor(DF$grp)
+```
+
+ To change it back:
+```{r}
+DF$grp <- as.character(DF$grp)
+```
+
+
 1. Vectors
 
 ```{r, error = TRUE}
@@ -26,11 +54,9 @@ set.seed(1)
 v1 <- sample(0:100, 20, replace = TRUE)
 v1
 
-set.seed(1)
 v2 <- sample(1:10, 20, replace = TRUE)
 v2
 
-set.seed(1)
 v3 <- runif(20, 0, 1)
 v3
 
