@@ -70,7 +70,6 @@ v4
 2. Matrices
 
 ```{r, error = TRUE}
-library(hjl246)
 m1 <- matrix(c(v1, v2), ncol = 2)
 m1
 
@@ -84,7 +83,6 @@ m3
 3. Data Frame
 
 ```{r, error = TRUE}
-library(hjl246)
 DF <- data.frame(v1, v2, v3, v4)
 DF
 
@@ -95,7 +93,6 @@ DF
 4. 'my_calc' Examples
 
 ```{r, error = TRUE}
-library(hjl246)
 s1 <- my_calc(v1, v2, "sum")
 s1
 d1 <- my_calc(v1, v2, "divide")
@@ -131,7 +128,6 @@ DF[which(DF[, "grp"] == "E"), c("a", "b")] / DF[which(DF[, "grp"] == "E"), "c"]
 5. *apply Examples
 
 ```{r, error = TRUE}
-library(hjl246)
 l = list(v1, m1, m2)
 l
 

@@ -21,10 +21,17 @@ This vignette covers Unit 1 Module 4. This vignette works with the crop_ylds dat
 ```{r, error = TRUE}
 library(hjl246)
 
-paste0("g", i)
-for (i in 1:10) {
-  paste0("G", i)
+
+for(i in 1:10) {
+    grp = paste0("g", i)
 }
+
+
+grp <- lapply((1:10), function(x) {
+    o <- paste0("G", x)
+    return(o)
+})
+grp
 
 wa <- lapply(c(10, 15, 20), function(x) {
   for(1:length(x)) {
