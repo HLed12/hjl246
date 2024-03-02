@@ -140,7 +140,10 @@ yieldTop5
 ```
 
 4. Mean
+```{r}
 
+
+```
 Plots
 ```{r, warning = FALSE, message = FALSE, fig.width=4.75, fig.height=3.75, fig.align = "center"}
 ```
