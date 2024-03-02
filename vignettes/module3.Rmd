@@ -36,12 +36,12 @@ Questions:
 "What kind of data type is “grp”? How would you change it between character
 and factor and back again?"
   Grp is a chr type (character). To change this to factor you could write:
-```{r}
+```{r, error = TRUE}
 DF$grp <- as.factor(DF$grp)
 ```
 
  To change it back:
-```{r}
+```{r, error = TRUE}
 DF$grp <- as.character(DF$grp)
 ```
 

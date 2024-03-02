@@ -21,6 +21,7 @@ This vignette covers Unit 1 Module 4. This vignette works with the crop_ylds dat
 1. Three tibbles
 ```{r, warning = FALSE, message = FALSE}
 library(hjl246)
+library(dplyr)
 
 g10 <- lapply((1:10), function(x) {
     o <- paste0("G", x)
@@ -74,6 +75,7 @@ joinInner
 ```{r, warning = FALSE, message = FALSE}
 library(readr)
 library(dplyr)
+library(tidyr)
 
 #Chunk 1
 fs <- dir(system.file("extdata/", package = "geospaar"), 
@@ -118,6 +120,7 @@ crop_ylds <- crop_ylds %>%
   mutate(country = ifelse(country == "South Africa", "ZAF", country)) %>%  
   mutate(country = ifelse(country == "Zambia", "ZMB", country)) %>% 
   mutate(crop = tolower(crop))
+
 set.seed(1)
 crop_ylds %>% sample_n(5)
 ```
@@ -125,6 +128,7 @@ crop_ylds %>% sample_n(5)
 
 3. dplyr verbs
 ```{r, warning = FALSE, message = FALSE}
+
 harvTop5 <- crop_ylds %>% 
   filter(crop == "maize", country == "ZAF") %>% 
   arrange(-harv_area) %>% 
@@ -140,10 +144,73 @@ yieldTop5
 ```
 
 4. Mean
-```{r}
+```{r, warning = FALSE, message = FALSE}
 
+# Error in buildVignette with the unique() function
+# workAround is my work around to this
+workAround <- data.frame(crop_ylds$crop)
+workAround
+
+# dplyr approach
+cropYields <- crop_ylds %>%
+  group_by(crop) %>%
+  summarize(mean_yield = mean(yield))
+cropYields
+
+
+
+splt_apply <- sapply(unique(workAround[,]), function(x) {
+  dat <- crop_ylds[crop_ylds$crop == x, ]  
+  o <- data.frame(crop = x, mean_yield = mean(dat$yield))  
+})
+splt_apply
 
 ```
-Plots
+
+5. Correlation Matrix
+```{r, warning = FALSE, message = FALSE}
+
+corMatrix <- crop_ylds %>% 
+  group_by(crop, country) %>% 
+  summarise(cor = cor(harv_area, yield)) %>% 
+  arrange(-cor)
+corMatrix
+
+```
+
+6. Scatter Plot ggplot2
 ```{r, warning = FALSE, message = FALSE, fig.width=4.75, fig.height=3.75, fig.align = "center"}
+library(ggplot2)
+
+crop_ylds %>% filter(crop == "maize") %>% 
+  ggplot() + geom_point(aes(x = harv_area, y = yield, color = country)) +
+  geom_smooth(aes(x = harv_area, y = yield, color = country), method = "lm") + 
+  scale_color_manual(values = c("red", "blue")) + 
+  xlab("Harvested area (ha)") + ylab("Yield (t/ha)") + 
+  ggtitle("Harvested area versus yield")
+
+```
+
+
+7. Scatter Plot graphics::plot
+```{r, warning = FALSE, message = FALSE, fig.width=4.75, fig.height=3.75, fig.align = "center"}
+
+zaf_maize <- crop_ylds %>% filter(crop == "wheat" & country == "ZAF")
+yl <- range(crop_ylds[crop_ylds$crop == "wheat", "yield"])
+plot(yield ~ year, data = zaf_maize, pch = 16, col = "blue",
+     ylim = yl, main = "South African wheat (1961-2017)", 
+     xlab = "", ylab = "Yield (t/ha)")
+points(yield ~ year, data = zaf_maize, pch = 16, col = "grey")
+abline(lm(yield ~ year, data = zaf_maize), col = "blue")
+
+```
+
+8. Histogram
+```{r, warning = FALSE, message = FALSE, fig.width=4.75, fig.height=3.75, fig.align = "center"}
+
+crop_ylds %>% filter(crop == "maize", country == "ZMB") %>%
+  ggplot() + geom_histogram(aes(x = yield), bins = 5, fill = "blue", col = "black") +
+  ggtitle("Zambian Maize") + xlab("Yield (t/ha)") + ylab("")
+?ggtitle
+
 ```
