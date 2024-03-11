@@ -74,7 +74,6 @@ joinInner
 2. Recreate crop_ylds 
 ```{r, warning = FALSE, message = FALSE}
 library(readr)
-library(dplyr)
 library(tidyr)
 
 #Chunk 1

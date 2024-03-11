@@ -1,0 +1,19 @@
+---
+title: "unit2-module1"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{unit2-module1}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(hjl246)
+```
