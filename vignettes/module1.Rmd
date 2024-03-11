@@ -30,7 +30,6 @@ my_number_checker(20)
 'my_multiplier', which is executed as follows:
 
 ```{r}
-#library(hjl246)
 my_multiplier(1)
 my_multiplier(7)
 my_multiplier(20)
@@ -39,7 +38,6 @@ my_multiplier(20)
 and 'my_calc', which is executed as follows:
 
 ```{r}
-#library(hjl246)
 my_calc(1, 1, "sum")
 my_calc(2, 1, "subtract")
 my_calc(20, 2, "divide")

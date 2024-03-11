@@ -1,5 +1,7 @@
 ---
 title: "unit2-module1"
+author: "Harrison Leduc"
+date: "2024-03-11"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{unit2-module1}
@@ -17,3 +19,9 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(hjl246)
 ```
+
+```{r}
+
+```
+
+
