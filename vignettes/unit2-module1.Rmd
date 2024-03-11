@@ -20,6 +20,9 @@ knitr::opts_chunk$set(
 library(hjl246)
 ```
 
+Go through march11Notes on personal drive for coding assistance for the 
+assignment.
+
 ```{r}
 
 ```
