@@ -24,22 +24,34 @@ library(hjl246)
 
 ```{r}
 roads <- st_read(system.file("extdata/roads.geojson", package = "geospaar"))
+roads
 
 districts_alb <- read_sf(system.file("extdata/districts.geojson", 
                                  package = "geospaar")) %>% 
   st_transform(x = ., crs = st_crs(roads))
+districts_alb
 
-farmers_alb <- read_csv(system.file("extdata/farmer_spatial.csv", 
-                                   package = "geospaar")) %>% 
+farmers_alb <- read_csv(system.file("extdata/farmer_spatial.csv", package = "geospaar")) %>% 
   distinct(uuid, x, y, season) %>% 
-  st_as_sf(coords = c("x", "y")) %>% 
-  st_set_crs(st_crs(roads))
+  st_as_sf(coords = c("x", "y"), crs = 4326) %>%  #should be ., ??
+  st_transform(x = ., crs = st_crs(roads))
+  #st_set_crs(., st_crs(roads))
+tail(farmers_alb)
+
+farmers <- read_csv(system.file("extdata/farmer_spatial.csv", package = "geospaar")) %>% 
+  distinct(uuid, x, y, season)
+farmers
+faTEST <- st_as_sf(farmers, coords = c("x", "y"))
+faTEST <- st_transform(x = faTest, crs = st_crs(roads))
+faTEST
+?st_set_crs
 ```
 
 ## Task 2
 
 ```{r, fig.width=5, fig.height=6, fig.align = "center"}
 library(sf)
+library(geospaar)
 par(mar = c(0, 0, 0, 0))
 plot_sf(x = districts_alb)
 sf::plot(x = v1, y = v2, data = districts_alb, col = "grey")
@@ -54,13 +66,16 @@ sf::plot(districts_alb)
 ## Task 3
 
 ```{r, fig.width=5, fig.height=6, fig.align = "center"}
-ggplot() + geom_sf() +
+ggplot() +
   geom_sf(data = districts_alb, fill = "grey") +
   geom_sf(data = roads, col = "red") +
   geom_sf(data = farmers_alb, pch = "+", size = 3, col = "blue") +
   theme_bw()
-  
 
+  
+#ggplot(districts_alb) + geom_sf() +
+#  geom_sf(data = roads, col = "red") + 
+#  geom_sf(data = farmers_alb, col = "blue")
 ```
 
 
