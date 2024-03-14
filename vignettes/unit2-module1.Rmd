@@ -20,10 +20,29 @@ knitr::opts_chunk$set(
 library(hjl246)
 ```
 
-Go through march11Notes on personal drive for coding assistance for the 
-assignment.
+## Task 1
 
 ```{r}
+roads <- st_read(system.file("extdata/roads.geojson", package = "geospaar"))
+
+districts_alb <- read_sf(system.file("extdata/districts.geojson", 
+                                 package = "geospaar")) %>% 
+  st_transform(x = ., crs = st_crs(roads))
+
+farmers_alb <- read_csv(system.file("extdata/farmer_spatial.csv", 
+                                   package = "geospaar")) %>% 
+  distinct(uuid, x, y, season) %>% 
+  st_as_sf(coords = c("x", "y")) %>% 
+  st_set_crs(st_crs(roads))
+```
+
+## Task 2
+
+```{r, fig.width=5, fig.height=6, fig.align = "center"}
+par(mar = c(0, 0, 0, 0))
+sf::plot_sf(districts_alb, col = "grey")
+sf::plot_sf(roads, col = "red")
+sf::plot_sf(farmers_alb, col = "blue")
 
 ```
 
