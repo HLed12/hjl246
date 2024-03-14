@@ -39,10 +39,33 @@ farmers_alb <- read_csv(system.file("extdata/farmer_spatial.csv",
 ## Task 2
 
 ```{r, fig.width=5, fig.height=6, fig.align = "center"}
+library(sf)
 par(mar = c(0, 0, 0, 0))
-sf::plot_sf(districts_alb, col = "grey")
-sf::plot_sf(roads, col = "red")
-sf::plot_sf(farmers_alb, col = "blue")
+plot_sf(x = districts_alb)
+sf::plot(x = v1, y = v2, data = districts_alb, col = "grey")
+sf::plot(roads, col = "red")
+sf::plot(farmers_alb, col = "blue")
+sf::plot()
+sf::plot(districts_alb)
+??plot.sf
+
+```
+
+## Task 3
+
+```{r, fig.width=5, fig.height=6, fig.align = "center"}
+ggplot() + geom_sf() +
+  geom_sf(data = districts_alb, fill = "grey") +
+  geom_sf(data = roads, col = "red") +
+  geom_sf(data = farmers_alb, pch = "+", size = 3, col = "blue") +
+  theme_bw()
+  
+
+```
+
+
+``````{r, fig.width=5, fig.height=6, fig.align = "center"}
+
 
 ```
 
