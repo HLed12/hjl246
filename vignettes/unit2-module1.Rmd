@@ -65,19 +65,30 @@ ggplot() +
 
 ## Task 4
 
-```{r}
+```{r, fig.width=6, fig.height=4, fig.align = "center"}
+# use par(mar(0?,0?,1?,0?)) ?? to get the 1 inch marg at top
 median_dist <- districts_alb %>% 
   mutate(area = st_area(.) %>% 
   units::set_units("km^2") %>%
   as.numeric()) %>% 
-  select(median(.$area))
+  summarize(median(area))
 median_dist
 
-districts_alb %>% 
-  select(median())
+median_dist <- districts_alb %>% 
+  mutate(area = as.numeric(st_area(.))) %>% 
+  summarize(median(area))
+median_dist
 
+districts_alb
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, mar = 1, main = "The median area district")
+plot(median_dist, col = "khaki") # or pch = 20
 
+ggplot() + 
+  geom_sf(data = districts_alb, fill = "grey") +
+  geom_sf(data = median_dist, col = "khaki")
 
+districts_alb %>% plot(col = "grey", reset = FALSE)
+median_dist %>% plot(col = "khaki", add = TRUE)
 
 test <- districts_alb %>% 
   mutate(area = st_area(.) %>% 
@@ -93,6 +104,13 @@ test1 <- districts_alb %>%
   as.numeric()) %>% 
   select(.$area== median(.$area)) #match(median(.$area))
 test1
+
+test2 <- districts_alb %>% 
+  mutate(area = st_area(.) %>% 
+  units::set_units("km^2") %>%
+  as.numeric()) %>% 
+  summarize(median(area)) #match(median(.$area))
+test2
 ```
 
 ```{r}
