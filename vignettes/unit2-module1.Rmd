@@ -35,22 +35,19 @@ farmers_alb <- read_csv(system.file("extdata/farmer_spatial.csv", package = "geo
   distinct(uuid, x, y, season) %>% 
   st_as_sf(x = ., coords = c("x", "y"), crs = 4326) %>%
   st_transform(x = ., crs = st_crs(roads))
-  #st_set_crs(., st_crs(roads))
 farmers_alb
 
 ```
 
 ## Task 2
 
-```{r, fig.width=5, fig.height=6, fig.align = "center"}
-par(mar = c(0, 0, 0, 0))
-plot_sf(x = districts_alb)
-sf::plot(x = v1, y = v2, data = districts_alb, col = "grey")
-sf::plot(roads, col = "red")
-sf::plot(farmers_alb, col = "blue")
-sf::plot()
-sf::plot(districts_alb)
-??plot.sf
+```{r, fig.width=6, fig.height=4, fig.align = "center"}
+library(sf)
+#par(mar = c(0, 0, 0, 0))
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
+plot(roads, add = TRUE, col = "red", lwd = 2) # or pch = 20
+plot(farmers_alb, add = TRUE, pch = "+", size = 3, col = "blue")
 
 ```
 
@@ -63,17 +60,8 @@ ggplot() +
   geom_sf(data = farmers_alb, pch = "+", size = 3, col = "blue") +
   theme_bw()
 
-  
-#ggplot(districts_alb) + geom_sf() +
-#  geom_sf(data = roads, col = "red") + 
-#  geom_sf(data = farmers_alb, col = "blue")
 ```
 
-
-```{r, fig.width=5, fig.height=6, fig.align = "center"}
-
-
-```
 
 ## Task 4
 
@@ -87,6 +75,24 @@ median_dist
 
 districts_alb %>% 
   select(median())
+
+
+
+
+test <- districts_alb %>% 
+  mutate(area = st_area(.) %>% 
+  units::set_units("km^2") %>%
+  as.numeric())
+test
+test$area
+median(test$area)
+test$area == 9441.404
+test1 <- districts_alb %>% 
+  mutate(area = st_area(.) %>% 
+  units::set_units("km^2") %>%
+  as.numeric()) %>% 
+  select(.$area== median(.$area)) #match(median(.$area))
+test1
 ```
 
 ```{r}
