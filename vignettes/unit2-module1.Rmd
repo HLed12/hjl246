@@ -130,6 +130,21 @@ t <- districts_alb %>%
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
 plot(t, add = TRUE, col = "khaki") # or pch = 20
 
+#--------------
+# 
+# #2 FINAL ATTEMP 
+distTest <- districts_alb
+distTest$area <- as.numeric(st_area(districts_alb))
+distTest
+
+t2 <- distTest %>% filter(.$area <= as.numeric(median(.$area)))
+
+plot(st_geometry(districts_alb), col = "grey")
+plot(st_geometry(t2), col = "red", add = TRUE)
+
+#--------------
+
+
 dist_test <- districts_alb %>% 
   mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
   summarize(median(.$area))
