@@ -79,12 +79,20 @@ median_dist <- districts_alb %>%
   summarize(median(area))
 median_dist
 
+districts_alb %>% 
+  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
+  summarize(median(.$data))
+
+
 districts_alb
-plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, mar = 1, main = "The median area district")
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
 plot(median_dist, col = "khaki") # or pch = 20
 
 ggplot() + 
   geom_sf(data = districts_alb, fill = "grey") +
+  geom_sf(data = median_dist, col = "khaki")
+
+ggplot(districts_alb, fill = "grey") +
   geom_sf(data = median_dist, col = "khaki")
 
 districts_alb %>% plot(col = "grey", reset = FALSE)
@@ -115,5 +123,31 @@ test2
 
 ```{r}
 
+districts_alb %>% 
+  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
+  summarize(median(.$data))
+
+dist_test <- districts_alb %>% 
+  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
+  summarize(median(.$area))
+dist_test
+
+distTest <- districts_alb
+distTest
+# distTest <- mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) 
+distTest$area = as.numeric(st_area(districts_alb))
+distTest
+
+median(distTest$area)
+distTest[1,1:3]
+
+
+median_test2 <- distTest[abs(distTest$area - median_area) <= tolerance, ]
+median_test2
+
+distTest[distTest$area == median_area, ]
+
+plot(distTest %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
+plot(median_test2, col = "khaki", add = TRUE)  # Add the median district to the existing plot
 
 ```
