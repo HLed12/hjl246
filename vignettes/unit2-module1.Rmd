@@ -123,9 +123,12 @@ test2
 
 ```{r}
 
-districts_alb %>% 
-  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
-  summarize(median(.$data))
+t <- districts_alb %>% 
+  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.) / 10^6)) %>% 
+  summarize(median(.$area))
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
+plot(t, add = TRUE, col = "khaki") # or pch = 20
 
 dist_test <- districts_alb %>% 
   mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
