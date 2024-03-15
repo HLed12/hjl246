@@ -33,25 +33,16 @@ districts_alb
 
 farmers_alb <- read_csv(system.file("extdata/farmer_spatial.csv", package = "geospaar")) %>% 
   distinct(uuid, x, y, season) %>% 
-  st_as_sf(coords = c("x", "y"), crs = 4326) %>%  #should be ., ??
+  st_as_sf(x = ., coords = c("x", "y"), crs = 4326) %>%
   st_transform(x = ., crs = st_crs(roads))
   #st_set_crs(., st_crs(roads))
-tail(farmers_alb)
+farmers_alb
 
-farmers <- read_csv(system.file("extdata/farmer_spatial.csv", package = "geospaar")) %>% 
-  distinct(uuid, x, y, season)
-farmers
-faTEST <- st_as_sf(farmers, coords = c("x", "y"))
-faTEST <- st_transform(x = faTest, crs = st_crs(roads))
-faTEST
-?st_set_crs
 ```
 
 ## Task 2
 
 ```{r, fig.width=5, fig.height=6, fig.align = "center"}
-library(sf)
-library(geospaar)
 par(mar = c(0, 0, 0, 0))
 plot_sf(x = districts_alb)
 sf::plot(x = v1, y = v2, data = districts_alb, col = "grey")
@@ -79,9 +70,26 @@ ggplot() +
 ```
 
 
-``````{r, fig.width=5, fig.height=6, fig.align = "center"}
+```{r, fig.width=5, fig.height=6, fig.align = "center"}
 
 
 ```
 
+## Task 4
 
+```{r}
+median_dist <- districts_alb %>% 
+  mutate(area = st_area(.) %>% 
+  units::set_units("km^2") %>%
+  as.numeric()) %>% 
+  select(median(.$area))
+median_dist
+
+districts_alb %>% 
+  select(median())
+```
+
+```{r}
+
+
+```
