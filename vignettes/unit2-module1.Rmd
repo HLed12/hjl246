@@ -67,132 +67,55 @@ ggplot() +
 
 ```{r, fig.width=6, fig.height=4, fig.align = "center"}
 # use par(mar(0?,0?,1?,0?)) ?? to get the 1 inch marg at top
-median_dist <- districts_alb %>% 
-  mutate(area = st_area(.) %>% 
-  units::set_units("km^2") %>%
-  as.numeric()) %>% 
-  summarize(median(area))
-median_dist
 
 median_dist <- districts_alb %>% 
   mutate(area = as.numeric(st_area(.))) %>% 
-  summarize(median(area))
+  arrange(.$area) %>% 
+  slice(length(.$area) / 2)
 median_dist
 
-districts_alb %>% 
-  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
-  summarize(median(.$data))
-
-
-districts_alb
+par(mar = c(0, 0, 1, 0))
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
-plot(median_dist, col = "khaki") # or pch = 20
-
-ggplot() + 
-  geom_sf(data = districts_alb, fill = "grey") +
-  geom_sf(data = median_dist, col = "khaki")
-
-ggplot(districts_alb, fill = "grey") +
-  geom_sf(data = median_dist, col = "khaki")
-
-districts_alb %>% plot(col = "grey", reset = FALSE)
-median_dist %>% plot(col = "khaki", add = TRUE)
-
-test <- districts_alb %>% 
-  mutate(area = st_area(.) %>% 
-  units::set_units("km^2") %>%
-  as.numeric())
-test
-test$area
-median(test$area)
-test$area == 9441.404
-test1 <- districts_alb %>% 
-  mutate(area = st_area(.) %>% 
-  units::set_units("km^2") %>%
-  as.numeric()) %>% 
-  select(.$area== median(.$area)) #match(median(.$area))
-test1
-
-test2 <- districts_alb %>% 
-  mutate(area = st_area(.) %>% 
-  units::set_units("km^2") %>%
-  as.numeric()) %>% 
-  summarize(median(area)) #match(median(.$area))
-test2
-```
-
-```{r}
-
-z <- districts_alb %>% 
-  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.) / 10^6)) %>% 
-  group_by(area) %>% 
-  select(distName)
-z
-
-bb <- districts_alb %>% 
-    mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.) / 10^6)) %>% 
-  select(area, distName) %>% 
-  group_by(area) %>% 
-  summarise_all(list(med = median))
-bb
-bb[3]
-
-t <- districts_alb %>% 
-  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.) / 10^6)) %>% 
-  summarize(median(.$area))
-
-plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
-plot(t, add = TRUE, col = "khaki") # or pch = 20
-
-#--------------
-# 
-# #2 FINAL ATTEMP 
-distTest <- districts_alb
-distTest$area <- as.numeric(st_area(districts_alb))
-distTest
-
-t2 <- distTest %>% filter(.$area <= as.numeric(median(.$area)))
-
-plot(st_geometry(districts_alb), col = "grey")
-plot(st_geometry(t2), col = "red", add = TRUE)
-
-#--------------
+plot(st_geometry(median_dist), col = "khaki", add = TRUE)
 
 
-dist_test <- districts_alb %>% 
-  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) %>% 
-  summarize(median(.$area))
-dist_test
+#dmargin#d <- districts_alb %>% 
+#   mutate(area = as.numeric(st_area(districts_alb))) %>% 
+#  arrange(.$area)
+#d[36,] 
+#d
 
-distTest <- districts_alb
-distTest
-# distTest <- mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.))) 
-distTest$area = as.numeric(st_area(districts_alb))
-distTest
-
-median(distTest$area)
-distTest[1,1:3]
-
-
-median_test2 <- distTest[abs(distTest$area - median_area) <= tolerance, ]
-median_test2
-
-distTest[distTest$area == median_area, ]
-
-plot(distTest %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
-plot(median_test2, col = "khaki", add = TRUE)  # Add the median district to the existing plot
 
 ```
 
-```{r}
-district <- districts_alb %>% 
-  mutate(as.numeric(st_area(districts_alb))) %>% 
-  filter(.$area == median(.$area)) %>% 
-  select(distName)
-district
+## Task 5
 
-plot(st_geometry(districts_alb), col = "grey")
-plot(st_geometry(district), col = "red", add = TRUE)
+```{r, fig.width=6, fig.height=4}
+tertiles <- function(x) quantile(x, probs = c(0, 0.333, 0.667, 1))
+dist_tertiles <- median_dist %>% 
+  mutate(acls = cut(area, breaks = tertiles(area), include.lowest = TRUE))
+#  group_by(acls) %>% 
+#  summarize(mean_area = mean(area))  
+
+median_distp <- median_dist %>% 
+  
+  
+  
+closest_20farmers <- farmers_alb %>% 
+  filter(season == 1) %>%
+  mutate(dist = st_distance(.)) %>% 
+  arrange(dist) %>% 
+  slice(1:20)
+closest_20farmers
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
+plot(st_geometry(median_dist), col = "khaki", add = TRUE)
+plot(st_geometry(median_distp), fill = "purple", add = TRUE)
+plot(st_geometry(farmers_alb), col = "blue", add = TRUE)
+plot(st_geometry(closest_20farmers), col = "red", add = TRUE)
+
+
+
 
 ```
 
