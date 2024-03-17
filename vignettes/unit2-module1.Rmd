@@ -123,6 +123,20 @@ test2
 
 ```{r}
 
+z <- districts_alb %>% 
+  mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.) / 10^6)) %>% 
+  group_by(area) %>% 
+  select(distName)
+z
+
+bb <- districts_alb %>% 
+    mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.) / 10^6)) %>% 
+  select(area, distName) %>% 
+  group_by(area) %>% 
+  summarise_all(list(med = median))
+bb
+bb[3]
+
 t <- districts_alb %>% 
   mutate(distName = distName, geometry = geometry, area = as.numeric(st_area(.) / 10^6)) %>% 
   summarize(median(.$area))
@@ -169,3 +183,17 @@ plot(distTest %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, ma
 plot(median_test2, col = "khaki", add = TRUE)  # Add the median district to the existing plot
 
 ```
+
+```{r}
+district <- districts_alb %>% 
+  mutate(as.numeric(st_area(districts_alb))) %>% 
+  filter(.$area == median(.$area)) %>% 
+  select(distName)
+district
+
+plot(st_geometry(districts_alb), col = "grey")
+plot(st_geometry(district), col = "red", add = TRUE)
+
+```
+
+
