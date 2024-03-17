@@ -91,15 +91,9 @@ plot(st_geometry(median_dist), col = "khaki", add = TRUE)
 ## Task 5
 
 ```{r, fig.width=6, fig.height=4}
-tertiles <- function(x) quantile(x, probs = c(0, 0.333, 0.667, 1))
-dist_tertiles <- median_dist %>% 
-  mutate(acls = cut(area, breaks = tertiles(area), include.lowest = TRUE))
-#  group_by(acls) %>% 
-#  summarize(mean_area = mean(area))  
+median_distp <- st_centroid(median_dist)
+median_distp
 
-median_distp <- median_dist %>% 
-  
-  
   
 closest_20farmers <- farmers_alb %>% 
   filter(season == 1) %>%
@@ -110,9 +104,9 @@ closest_20farmers
 
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
 plot(st_geometry(median_dist), col = "khaki", add = TRUE)
-plot(st_geometry(median_distp), fill = "purple", add = TRUE)
-plot(st_geometry(farmers_alb), col = "blue", add = TRUE)
-plot(st_geometry(closest_20farmers), col = "red", add = TRUE)
+plot(st_geometry(median_distp), col = "purple", fill = "purple", add = TRUE)
+plot(st_geometry(farmers_alb), pch = "+", size = 3, col = "blue", add = TRUE)
+plot(st_geometry(closest_20farmers), pch = "+", size = 3, col = "red", add = TRUE)
 
 
 
