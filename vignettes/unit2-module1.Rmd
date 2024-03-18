@@ -71,6 +71,8 @@ median_dist <- districts_alb %>%
   slice(length(.$area) / 2)
 median_dist
 
+## SHOULD THE MUTATE HAVE SET::UNITS?
+
 par(mar = c(0, 0, 1, 0))
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
 plot(st_geometry(median_dist), col = "khaki", add = TRUE)
@@ -88,6 +90,8 @@ closest_20farmers <- farmers_alb %>%
   arrange(dist) %>% 
   slice(1:20)
 closest_20farmers
+
+#SHOULD THE MUTATE HAVE SET::UNITS ???
 
 par(mar = c(0, 0, 0, 0))
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
@@ -134,9 +138,7 @@ mypol_area
 mypol_dist_int <- districts_alb %>% 
   slice(st_intersects(x = mypol, y = .)[[1]]) %>% 
   st_cast("MULTIPOLYGON") %>% 
-  mutate(area = st_area(.) %>%
-           units::set_units("ha") %>%
-           as.numeric())
+  mutate(area = as.numeric(units::set_units(st_area(.), "ha")))
 mypol_dist_int
 
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
@@ -158,12 +160,11 @@ roads_extreme <- roads %>%
 roads_extreme
 
 roads_extreme <- roads %>% 
-  mutate(roadlngth = (st_length(.) %>% 
-           units::set_units("km") %>%
-           as.numeric())) %>% 
-  arrange(roadlngth) %>% 
+  mutate(road_length = as.numeric(units::set_units(st_length(.), "km"))) %>% 
+  arrange(road_length) %>% 
   slice(1, length(.$roadid))
 roads_extreme
+
 
 roads_extreme_buff <- st_buffer(x = roads_extreme, dist = 50000)
 roads_extreme_buff
@@ -205,12 +206,12 @@ Total distance of intersected roads (km):
 
 ```{r}
 roads_int <- roads_int %>% 
-  mutate(dist = (st_length(.) %>% 
-           units::set_units("km") %>%
-           as.numeric()))
+  mutate(dist = as.numeric(units::set_units(st_length(.), "km")))
+
 sum(roads_int$dist)
 
 ```
 
-
-
+##############################################
+CHECK GEOG 246 WORD DOC
+#######################################################################################################################################################################################################################################
