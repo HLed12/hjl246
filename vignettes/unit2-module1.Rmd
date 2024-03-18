@@ -189,7 +189,26 @@ plot(rand_points, pch = 16, col = "yellow", add = TRUE)
 
 ## Task 10
 
+```{r, fig.width=6, fig.height=4}
+roads_int <- roads %>% 
+  slice(st_intersects(x = roads_extreme_buff[2, ], y = .)[[1]])
+roads_int
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
+plot(st_geometry(roads_extreme_buff[2, ]), col = "blue", add = TRUE)
+plot(st_geometry(roads_int), col = "red", add = TRUE)
+
+
+```
+
+Total distance of intersected roads (km):
+
 ```{r}
+roads_int <- roads_int %>% 
+  mutate(dist = (st_length(.) %>% 
+           units::set_units("km") %>%
+           as.numeric()))
+sum(roads_int$dist)
 
 ```
 
