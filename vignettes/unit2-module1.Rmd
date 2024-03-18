@@ -94,23 +94,31 @@ plot(st_geometry(median_dist), col = "khaki", add = TRUE)
 median_distp <- st_centroid(median_dist)
 median_distp
 
-  
 closest_20farmers <- farmers_alb %>% 
-  filter(season == 1) %>%
-  mutate(dist = st_distance(.)) %>% 
+  filter(season == 1) %>% 
+  mutate(dist = st_distance(x = .$geometry, y = median_distp)) %>% 
   arrange(dist) %>% 
   slice(1:20)
 closest_20farmers
 
-plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
+par(mar = c(0, 0, 0, 0))
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
 plot(st_geometry(median_dist), col = "khaki", add = TRUE)
-plot(st_geometry(median_distp), col = "purple", fill = "purple", add = TRUE)
+plot(st_geometry(median_distp), pch = 16, col = "purple", add = TRUE)
 plot(st_geometry(farmers_alb), pch = "+", size = 3, col = "blue", add = TRUE)
 plot(st_geometry(closest_20farmers), pch = "+", size = 3, col = "red", add = TRUE)
 
-
-
-
 ```
 
+## Task 6
+
+```{r}
+
+
+#median_distp[1, 2]
+#x = dist_cent[1, ], y = dist_cent[-1, ]
+```
+
+
+Convert the median_dist to its centroid point. Call it median_distp. filter the farmers_alb data for season 1, and then find the 20 closest season 1 farmers to median_distp. To do that, create the new object closest_20farmers by using mutate with st_distance to create a new variable dist (convert it to numeric), and then arrange by variable dist and slice out the top 20 observations. Plot districts_alb in grey, median_dist over that in khaki, median_distp as a solid purple circle, farmers_alb in blue, and closest_20farmers in red. Zero margins and width of 6 inches and height of 4 inches.
 
