@@ -43,10 +43,9 @@ farmers_alb
 
 ```{r, fig.width=6, fig.height=4, fig.align = "center"}
 library(sf)
-#par(mar = c(0, 0, 0, 0))
 
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
-plot(roads, add = TRUE, col = "red", lwd = 2) # or pch = 20
+plot(roads, add = TRUE, col = "red", lwd = 2)
 plot(farmers_alb, add = TRUE, pch = "+", size = 3, col = "blue")
 
 ```
@@ -66,8 +65,6 @@ ggplot() +
 ## Task 4
 
 ```{r, fig.width=6, fig.height=4, fig.align = "center"}
-# use par(mar(0?,0?,1?,0?)) ?? to get the 1 inch marg at top
-
 median_dist <- districts_alb %>% 
   mutate(area = as.numeric(st_area(.))) %>% 
   arrange(.$area) %>% 
@@ -77,15 +74,6 @@ median_dist
 par(mar = c(0, 0, 1, 0))
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
 plot(st_geometry(median_dist), col = "khaki", add = TRUE)
-
-
-#dmargin#d <- districts_alb %>% 
-#   mutate(area = as.numeric(st_area(districts_alb))) %>% 
-#  arrange(.$area)
-#d[36,] 
-#d
-
-
 ```
 
 ## Task 5
@@ -186,7 +174,24 @@ plot(st_geometry(roads_extreme), lwd = 3, col = "red", add = TRUE)
 ```
 
 ## Task 9
+```{r, fig.width=6, fig.height=4}
+set.seed(2)
+rand_points <- st_sample(roads_extreme_buff, size = c(10, 50), exact = TRUE)
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
+plot(st_geometry(roads_extreme_buff), col = "blue", add = TRUE)
+plot(st_geometry(roads_extreme), lwd = 3, col = "red", add = TRUE)
+plot(rand_points, pch = 16, col = "yellow", add = TRUE)
+
+
+#plot(st_sample(roads_extreme_buff, size = c(10, 50), exact = TRUE), pch = 3, col = "red", add = TRUE)
+```
+
+## Task 10
+
 ```{r}
 
 ```
+
+
 
