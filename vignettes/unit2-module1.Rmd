@@ -96,7 +96,7 @@ median_distp
 
 closest_20farmers <- farmers_alb %>% 
   filter(season == 1) %>% 
-  mutate(dist = st_distance(x = .$geometry, y = median_distp)) %>% 
+  mutate(dist = as.numeric(st_distance(x = .$geometry, y = median_distp))) %>% 
   arrange(dist) %>% 
   slice(1:20)
 closest_20farmers
@@ -108,17 +108,85 @@ plot(st_geometry(median_distp), pch = 16, col = "purple", add = TRUE)
 plot(st_geometry(farmers_alb), pch = "+", size = 3, col = "blue", add = TRUE)
 plot(st_geometry(closest_20farmers), pch = "+", size = 3, col = "red", add = TRUE)
 
+
 ```
 
 ## Task 6
 
-```{r}
 
 
-#median_distp[1, 2]
-#x = dist_cent[1, ], y = dist_cent[-1, ]
+```{r, fig.width=6, fig.height=4}
+mypol <- st_polygon(list(cbind(x = c(30, 31, 31, 30, 30), 
+                             y = c(-10, -10, -11, -11, -10)))) %>% 
+  st_sfc() %>% 
+  st_sf(crs = 4326) %>% 
+  st_transform(x = ., crs = st_crs(roads))
+mypol
+
+intersect_dists <- districts_alb %>% 
+  slice(st_intersects(x = mypol, y = .)[[1]])
+intersect_dists
+
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
+plot(st_geometry(intersect_dists), col = "grey40", add = TRUE)
+plot(st_geometry(mypol), border = "yellow",  add = TRUE)
 ```
 
+The area of the polygon in hectares 'ha' is:
 
-Convert the median_dist to its centroid point. Call it median_distp. filter the farmers_alb data for season 1, and then find the 20 closest season 1 farmers to median_distp. To do that, create the new object closest_20farmers by using mutate with st_distance to create a new variable dist (convert it to numeric), and then arrange by variable dist and slice out the top 20 observations. Plot districts_alb in grey, median_dist over that in khaki, median_distp as a solid purple circle, farmers_alb in blue, and closest_20farmers in red. Zero margins and width of 6 inches and height of 4 inches.
+```{r}
+mypol_area <- mypol %>% st_area() %>% 
+  units::set_units("ha")
+mypol_area
+```
+
+## Task 7
+```{r, fig.width=6, fig.height=4}
+mypol_dist_int <- districts_alb %>% 
+  slice(st_intersects(x = mypol, y = .)[[1]]) %>% 
+  st_cast("MULTIPOLYGON") %>% 
+  mutate(area = st_area(.) %>%
+           units::set_units("ha") %>%
+           as.numeric())
+mypol_dist_int
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
+plot(st_geometry(mypol_dist_int), col = rainbow(n = nrow(mypol_dist_int)), add = TRUE)
+
+
+```
+
+Mean and Median of the intersections (in hectares):
+```{r}
+summary(mypol_dist_int)[4,3]
+summary(mypol_dist_int)[3,3]
+```
+
+## Task 8
+```{r, fig.width=6, fig.height=4}
+roads_extreme <- roads %>% 
+  arrange(length(.$geometry)) 
+roads_extreme
+
+roads_extreme <- roads %>% 
+  mutate(roadlngth = (st_length(.) %>% 
+           units::set_units("km") %>%
+           as.numeric())) %>% 
+  arrange(roadlngth) %>% 
+  slice(1, length(.$roadid))
+roads_extreme
+
+roads_extreme_buff <- st_buffer(x = roads_extreme, dist = 50000)
+roads_extreme_buff
+
+plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
+plot(st_geometry(roads_extreme_buff), col = "blue", add = TRUE)
+plot(st_geometry(roads_extreme), lwd = 3, col = "red", add = TRUE)
+```
+
+## Task 9
+```{r}
+
+```
 
