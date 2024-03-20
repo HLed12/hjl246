@@ -71,7 +71,6 @@ median_dist <- districts_alb %>%
   slice(length(.$area) / 2)
 median_dist
 
-## SHOULD THE MUTATE HAVE SET::UNITS?
 
 par(mar = c(0, 0, 1, 0))
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE, main = "The median area district")
@@ -91,7 +90,6 @@ closest_20farmers <- farmers_alb %>%
   slice(1:20)
 closest_20farmers
 
-#SHOULD THE MUTATE HAVE SET::UNITS ???
 
 par(mar = c(0, 0, 0, 0))
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
