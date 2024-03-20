@@ -36,7 +36,6 @@ farmers_alb <- read_csv(system.file("extdata/farmer_spatial.csv", package = "geo
   st_as_sf(x = ., coords = c("x", "y"), crs = 4326) %>%
   st_transform(x = ., crs = st_crs(roads))
 farmers_alb
-
 ```
 
 ## Task 2
@@ -47,7 +46,6 @@ library(sf)
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
 plot(roads, add = TRUE, col = "red", lwd = 2)
 plot(farmers_alb, add = TRUE, pch = "+", size = 3, col = "blue")
-
 ```
 
 ## Task 3
@@ -58,7 +56,6 @@ ggplot() +
   geom_sf(data = roads, col = "red") +
   geom_sf(data = farmers_alb, pch = "+", size = 3, col = "blue") +
   theme_bw()
-
 ```
 
 
@@ -97,8 +94,6 @@ plot(st_geometry(median_dist), col = "khaki", add = TRUE)
 plot(st_geometry(median_distp), pch = 16, col = "purple", add = TRUE)
 plot(st_geometry(farmers_alb), pch = "+", size = 3, col = "blue", add = TRUE)
 plot(st_geometry(closest_20farmers), pch = "+", size = 3, col = "red", add = TRUE)
-
-
 ```
 
 ## Task 6
@@ -141,8 +136,6 @@ mypol_dist_int
 
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
 plot(st_geometry(mypol_dist_int), col = rainbow(n = nrow(mypol_dist_int)), add = TRUE)
-
-
 ```
 
 Mean and Median of the intersections (in hectares):
@@ -196,8 +189,6 @@ roads_int
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
 plot(st_geometry(roads_extreme_buff[2, ]), col = "blue", add = TRUE)
 plot(st_geometry(roads_int), col = "red", add = TRUE)
-
-
 ```
 
 Total distance of intersected roads (km):
@@ -207,7 +198,6 @@ roads_int <- roads_int %>%
   mutate(dist = as.numeric(units::set_units(st_length(.), "km")))
 
 sum(roads_int$dist)
-
 ```
 
 ##############################################
