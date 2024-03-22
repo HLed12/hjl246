@@ -1,7 +1,7 @@
 Package: hjl246
 Type: Package
 Title: GEOG246 coursework
-Version: 0.0.2
+Version: 0.0.3
 Author: Harrison Leduc
 Maintainer: Harrison Leduc <HLeduc@clarku.edu>
 Description: Package for GEOG246 class assignments.
