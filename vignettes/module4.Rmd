@@ -23,32 +23,14 @@ This vignette covers Unit 1 Module 4. This vignette works with the crop_ylds dat
 library(hjl246)
 library(dplyr)
 
-g10 <- lapply((1:10), function(x) {
-    o <- paste0("G", x)
-    return(o)
-})
-g10
-
-g15 <- lapply((1:15), function(x) {
-    o <- paste0("G", x)
-    return(o)
-})
-g15
-
-g20 <- lapply((1:20), function(x) {
-    o <- paste0("G", x)
-    return(o)
-})
-g20
-
 set.seed(1)
-t1 <- tibble(v1 = g10, v2 = runif(10, 75, 125))
+t1 <- tibble(v1 = paste0("G", 1:10), v2 = runif(10, min = 75, max = 125))
 t1
 
-t2 <- tibble(v1 = g15, v3 = sample(LETTERS[1:6], 15, replace = TRUE))
+t2 <- tibble(v1 = paste0("G", 1:15), v3 = sample(LETTERS[1:6], 15, replace = TRUE))
 t2
 
-t3 <- tibble(v1 = g20, v4 = rnorm(20, mean = 100, sd = 20))
+t3 <- tibble(v1 = paste0("G", 1:20), v4 = rnorm(20, mean = 100, sd = 20))
 t3
 
 
@@ -74,7 +56,6 @@ joinInner
 2. Recreate crop_ylds 
 ```{r, warning = FALSE, message = FALSE}
 library(readr)
-library(dplyr)
 library(tidyr)
 
 #Chunk 1
@@ -149,7 +130,6 @@ yieldTop5
 # Error in buildVignette with the unique() function
 # workAround is my work around to this
 workAround <- data.frame(crop_ylds$crop)
-workAround
 
 # dplyr approach
 cropYields <- crop_ylds %>%
@@ -173,7 +153,7 @@ splt_apply
 corMatrix <- crop_ylds %>% 
   group_by(crop, country) %>% 
   summarise(cor = cor(harv_area, yield)) %>% 
-  arrange(-cor)
+  arrange(cor)
 corMatrix
 
 ```
@@ -196,13 +176,12 @@ crop_ylds %>% filter(crop == "maize") %>%
 ```{r, warning = FALSE, message = FALSE, fig.width=4.75, fig.height=3.75, fig.align = "center"}
 
 zaf_maize <- crop_ylds %>% filter(crop == "wheat" & country == "ZAF")
-yl <- range(crop_ylds[crop_ylds$crop == "wheat", "yield"])
+yl <- range(crop_ylds[crop_ylds$crop == "wheat" & crop_ylds$country == "ZAF", "yield"])
 plot(yield ~ year, data = zaf_maize, pch = 16, col = "blue",
      ylim = yl, main = "South African wheat (1961-2017)", 
      xlab = "", ylab = "Yield (t/ha)")
 points(yield ~ year, data = zaf_maize, pch = 16, col = "grey")
 abline(lm(yield ~ year, data = zaf_maize), col = "blue")
-
 ```
 
 8. Histogram
@@ -211,6 +190,4 @@ abline(lm(yield ~ year, data = zaf_maize), col = "blue")
 crop_ylds %>% filter(crop == "maize", country == "ZMB") %>%
   ggplot() + geom_histogram(aes(x = yield), bins = 5, fill = "blue", col = "black") +
   ggtitle("Zambian Maize") + xlab("Yield (t/ha)") + ylab("")
-?ggtitle
-
 ```
