@@ -1,0 +1,70 @@
+---
+title: "unit2-module2"
+author: "Harrison Leduc"
+date: "2024-03-30"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{unit2-module2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(hjl246)
+```
+
+DOUBLE CHECK WHICH OF THESE NEED TO BE LOADED IN ##################
+##############eERROR##########################################
+Data
+```{r}
+library(geospaar)
+chirps <- rast(system.file("extdata/chirps.tif", package = "geospaar"))
+districts <- system.file("extdata/districts.geojson", package = "geospaar") %>%   st_read %>% mutate(ID = 1:nrow(.))
+chirpsz <- mask(x = chirps, mask = districts)
+
+farmers <- system.file("extdata/farmer_spatial.csv", package = "geospaar") %>%     read_csv(show_col_types = FALSE) 
+roads <- system.file("extdata/roads.geojson", package = "geospaar") %>% st_read
+
+
+```
+
+Task 1
+```{r}
+
+districts_ss <- districts[c(22, 26, 53, 54), ]
+districts_ss
+  
+r <- rast(x = ext(districts_ss), crs = crs(districts), resolution = 0.1)
+r
+
+set.seed(1)
+rsamp <- r
+values(rsamp) <- sample(10:50, size = ncell(rsamp), replace = TRUE)
+rsamp
+
+rrandn <- r
+values(rrandn) <- rnorm(n = ncell(rrandn), mean = 30, sd = 5)
+rrandn
+
+#s <- stack(rsamp, rrandn)
+#s <- stack(rsamp, rrandn) %>% 
+#  mask(x = ., mask = districts_ss)
+#s
+
+s <- c(rsamp, rrandn) %>% 
+  mask(x = ., mask = districts_ss) %>% 
+  plot_noaxes(., axes = FALSE, mar = c(1, 0.5, 1, 4))
+
+#test_m <- mask(x = chirps[[1]], mask = districts)
+#plot(test_m, axes = FALSE, mar = c(1, 0.5, 1, 4)) 
+
+#plot_noaxes(s, axes = FALSE, mar = c(1, 0.5, 1, 4))  
+
+```
