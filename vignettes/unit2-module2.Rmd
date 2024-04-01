@@ -77,8 +77,28 @@ s[[1]] #delete after
 s2_1d <- disagg(x = s[[1]], fact = 4, method = 'bilinear') 
 s2_1d
 
+s2_1gt35 <- s2_1d %>% 
+  filter(., . > 35)
+
+#s2_1gt35 <- as.data.frame(s2_1d)
+#s2_1gt35 <- s2_1gt35$
+  
+  
+s2_1gt35 <- s2_1d[s2_1d[] > 35]
+
+#s2_1gt35 <- rast(x = s2_1d[s2_1d[] > 35], crs = crs(s2_1d))
+
+s2_1gt35
 
 
-plot(s2_1d, main = paste0("Brick disagg bilinear", 1:2) )
+#if(values(s2_1gt35) == 0) {
+#  is.na(.)
+#}
+
+#s2poly <- sf(s2_1gt35)
+
+#plot(s2_1d, main = paste0("Brick disagg bilinear", 1:2)
+#plot(s2poly, add = TRUE, main = paste0("Brick disagg bilinear", 1:2)
+
 
 ```
