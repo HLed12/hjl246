@@ -59,12 +59,26 @@ rrandn
 #s
 
 s <- c(rsamp, rrandn) %>% 
-  mask(x = ., mask = districts_ss) %>% 
-  plot_noaxes(., axes = FALSE, mar = c(1, 0.5, 1, 4))
+  mask(x = ., mask = districts_ss)
+
+plot_noaxes(s, axes = FALSE, mar = c(1, 0.5, 1, 4))
+#s #????
 
 #test_m <- mask(x = chirps[[1]], mask = districts)
 #plot(test_m, axes = FALSE, mar = c(1, 0.5, 1, 4)) 
 
 #plot_noaxes(s, axes = FALSE, mar = c(1, 0.5, 1, 4))  
+
+```
+
+Task 2
+```{r}
+s[[1]] #delete after
+s2_1d <- disagg(x = s[[1]], fact = 4, method = 'bilinear') 
+s2_1d
+
+
+
+plot(s2_1d, main = paste0("Brick disagg bilinear", 1:2) )
 
 ```
