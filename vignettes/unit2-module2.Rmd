@@ -77,8 +77,16 @@ s[[1]] #delete after
 s2_1d <- disagg(x = s[[1]], fact = 4, method = 'bilinear') 
 s2_1d
 
-s2_1gt35 <- s2_1d %>% 
-  filter(., . > 35)
+
+#dstricts <- app(s2_1d, fun = sum)
+#dstricts
+#r1 <- dstricts > 35
+r1 <- s2_1d > 35
+
+r1
+r1[]
+plot(app(r1, sum))
+s2_1d
 
 #s2_1gt35 <- as.data.frame(s2_1d)
 #s2_1gt35 <- s2_1gt35$
@@ -102,3 +110,4 @@ s2_1gt35
 
 
 ```
+Disaggregate s[[1]] to a resolution of 0.025°, using bilinear interpolation, calling the result s2_1d. Select all areas of s2_1d that have values > 35, creating a new raster s2_1gt35. Set the values of s2_1gt35 that equal 0 to NA. Then convert the resulting raster into an sf object called s2poly. Plot the resulting polygons over s2_1d.
