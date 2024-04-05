@@ -135,5 +135,25 @@ plot(farmersr, add = TRUE, axes = FALSE)
 
 Task 4
 ```{r}
+farmersrpts <- as.points(x = farmersr) %>% 
+  st_as_sf
+farmersrpts
+
+zamr <- rast(x = ext(zamr), crs = crs(zamr), resolution = 0.05)
+zamr
+
+dist_to_farmers <- distance(x = zamr, y = farmersrpts)
+  
+  
+dist_to_farmers <- dist_to_farmers %>% 
+  mask(x = ., mask = districts)
+
+
+plot_noaxes(dist_to_farmers / 1000)
+plot(farmersrpts, pch = 19, col = "black", add = TRUE)
+```
+
+Task 5
+```{r}
 
 ```
