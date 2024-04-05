@@ -88,12 +88,14 @@ closest_20farmers <- farmers_alb %>%
   slice(1:20)
 closest_20farmers
 
+farmers_alb_s1 <- farmers_alb %>% 
+  filter(season == 1)
 
 par(mar = c(0, 0, 0, 0))
 plot(districts_alb %>% st_geometry(), col = "grey", graticule = TRUE, axes = TRUE)
 plot(st_geometry(median_dist), col = "khaki", add = TRUE)
 plot(st_geometry(median_distp), pch = 16, col = "purple", add = TRUE)
-plot(st_geometry(farmers_alb), pch = "+", size = 3, col = "blue", add = TRUE)
+plot(st_geometry(farmers_alb_s1), pch = "+", size = 3, col = "blue", add = TRUE)
 plot(st_geometry(closest_20farmers), pch = "+", size = 3, col = "red", add = TRUE)
 ```
 
@@ -130,7 +132,7 @@ mypol_area
 ## Task 7
 ```{r, fig.width=6, fig.height=4}
 mypol_dist_int <- districts_alb %>% 
-  slice(st_intersects(x = mypol, y = .)[[1]]) %>% 
+  st_intersection(x = mypol, y = .) %>% 
   st_cast("MULTIPOLYGON") %>% 
   mutate(area = as.numeric(units::set_units(st_area(.), "ha")))
 mypol_dist_int
@@ -181,8 +183,9 @@ plot(rand_points, pch = 16, col = "yellow", add = TRUE)
 ## Task 10
 
 ```{r, fig.width=6, fig.height=4}
-roads_int <- roads %>% 
-  slice(st_intersects(x = roads_extreme_buff[2, ], y = .)[[1]])
+roads_int <- roads_extreme_buff %>% 
+  filter(road_length == max(road_length)) %>% 
+  st_intersection(x = ., y = roads)
 roads_int
 
 par(mar = c(0, 0, 0, 0))
