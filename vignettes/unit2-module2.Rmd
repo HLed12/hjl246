@@ -97,13 +97,43 @@ test <- s2_1gt35 > unlist(global(s2_1gt35, mean, na.rm = TRUE))
 
 str(test)
 plot(s2_1d, main = paste0("Disagg bilinear"))
-plot(test3, add = TRUE)
+plot(test, add = TRUE)
 
 
 ```
 
 Task 3
 ```{r}
+zamr <- rast(x = ext(districts), crs = crs(districts), resolution = 0.5)
+zamr
+values(zamr) <- 1
+zamr
 
+
+#farmers <- system.file("extdata/farmer_spatial.csv", package = "geospaar") %>%     read_csv(show_col_types = FALSE) 
+
+farmersr <- farmers %>% 
+  distinct(uuid, .keep_all = TRUE) %>% 
+  dplyr::select(x, y) %>% 
+  mutate(count = 1) %>% 
+  st_as_sf(coords = c("x", "y"), crs = 4326) %>% 
+  rasterize(x = ., y = zamr, field = "count", fun = sum) %>% 
+  print()
+farmersr
+
+farmersr <- farmersr %>% 
+  mask(x = ., mask = districts)
+
+
+par(mar = c(0, 0, 1, 4))
+districts %>% 
+  st_union %>% 
+  plot(col = "grey", border = "grey", 
+       main = expression(paste("N farmers per 0.5", degree, " cell")))
+plot(farmersr, add = TRUE, axes = FALSE)
+```
+
+Task 4
+```{r}
 
 ```
