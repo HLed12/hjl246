@@ -220,7 +220,7 @@ legend(x = "bottomright", col = cols, pch = 15, pt.cex = 3,  bty = "n",
        legend = round(z$mean.1))
 ```
 
-Aggregate it to the same resolution as chirps, using the default mean aggregation, and mask it using districts. Call that dem5. Use terrain to calculate aspect from dem5 (call it aspect), selecting degrees as the output value. Then find all west-facing aspects (aspects >247.5 and <292.5), and all east facing aspects (>67.5 and <112.5), making new rasters respectively named west and east, e.g. west <- aspect > 247.5 & aspect < 292.5). Stack these together with aspect and make a three-panel plot with plot_noaxes with titles “Aspect”, “West”, and “East”. (Ref: Chunks 37, 42)
+Task 8
 
 ```{r}
 dem <- geodata::elevation_30s(country = "ZMB", path = tempdir())
@@ -236,6 +236,25 @@ east <- (aspect > 67.5 & aspect < 112.5)
 s <- c(aspect, west, east)
 titles <- c("Aspect", "West", "East")
 plot_noaxes(s, main = titles)
+```
 
+Task 9
+```{r}
+set.seed(1)
+west[west == 0] <- NA
+east[east == 0] <- NA
 
+randwest <- spatSample(west, size = 100, xy = TRUE, na.rm = TRUE) %>% 
+  st_as_sf(coords = c("x", "y"), crs = st_crs(districts))
+randwest
+  
+randeast <- spatSample(east, size = 100, xy = TRUE, na.rm = TRUE) %>% 
+  st_as_sf(coords = c("x", "y"), crs = st_crs(districts))
+randeast
+
+temp_stats <- bind_rows(
+  tibble(temp = terra::extract(zamtmean, randwest)$mean, dat = "West"), 
+  tibble(temp = terra::extract(zamtmean, randeast)$mean, dat = "East")
+)
+temp_stats
 ```
