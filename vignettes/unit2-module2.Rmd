@@ -207,15 +207,35 @@ zamprec <- mask(app(wcprec, mean), districts)
 zamprec_rs <- resample(x = zamprec, y = zamtclass, method = "near")  # match extent
 z <- zonal(x = zamprec_rs, z = zamtclass, fun = "mean")
 
-subsz <- z %>% dplyr::select(1:2)
-subsz
 
-zamprecz <- subst(x = zamtclass, from = subsz[, 1], to = subsz[, 2])
+zamprecz <- subst(x = zamtclass, from = z[, 1], to = z[, 2])
 zamprecz
 
 cols <- c("yellow2", "green3", "blue")
-plot_noaxes(zamprecz)
 
+
+plot_noaxes(zamprecz, legend = FALSE, main = "Average Rainfall", col = cols, 
+            mar = c(1, 1, 1, 3))
+legend(x = "bottomright", col = cols, pch = 15, pt.cex = 3,  bty = "n",
+       legend = round(z$mean.1))
 ```
 
-Recreate the zamprec dataset (chunk 48), then calculate the mean precipitation within each temperature zone defined by zamtclass. Call the resulting matrix z. Map the mean zonal precipitation values in z onto each temperature zone (using the subst function with zamtclass as the target; remember that zonal returns a matrix, and that subst requires equal length vector for the “from” and “to” values. Call the new raster zamprecz, and then plot it using plot_noaxes, with a custom legend (as done in Task 6), using the rounded zonal mean values (rounded) as the legend labels (legend = round(z$mean)). Use colors “yellow2”, “green3”, and “blue” for the three classes (Ref: Chunks 32, 33, 39)
+Aggregate it to the same resolution as chirps, using the default mean aggregation, and mask it using districts. Call that dem5. Use terrain to calculate aspect from dem5 (call it aspect), selecting degrees as the output value. Then find all west-facing aspects (aspects >247.5 and <292.5), and all east facing aspects (>67.5 and <112.5), making new rasters respectively named west and east, e.g. west <- aspect > 247.5 & aspect < 292.5). Stack these together with aspect and make a three-panel plot with plot_noaxes with titles “Aspect”, “West”, and “East”. (Ref: Chunks 37, 42)
+
+```{r}
+dem <- geodata::elevation_30s(country = "ZMB", path = tempdir())
+dem5 <- aggregate(x = dem, fact = 6)
+dem5 # resolution is 0.05
+
+dem5 <- mask(x = dem, mask = districts)
+
+aspect <- terrain(x = dem5, v = 'aspect', unit = 'degrees')
+west <- (aspect > 247.5 & aspect < 292.5)
+east <- (aspect > 67.5 & aspect < 112.5)
+
+s <- c(aspect, west, east)
+titles <- c("Aspect", "West", "East")
+plot_noaxes(s, main = titles)
+
+
+```
