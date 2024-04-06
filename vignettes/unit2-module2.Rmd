@@ -257,4 +257,17 @@ temp_stats <- bind_rows(
   tibble(temp = terra::extract(zamtmean, randeast)$mean, dat = "East")
 )
 temp_stats
+
+
+bp_theme <- theme(legend.title = element_blank(), 
+                  axis.text.x = element_blank(),
+                  axis.ticks.x = element_blank(), 
+                  panel.grid.major.x = element_blank(), 
+                  panel.grid.minor.x = element_blank(), 
+                  panel.background = element_rect(fill = "grey95"))
+ggplot(temp_stats) +
+  geom_boxplot(mapping = aes(y = temp, fill = dat), position = "dodge2") +
+  scale_fill_manual(values = c("steelblue", "cadetblue")) + 
+  ggtitle("Temp distributions") + xlab(NULL) + ylab("degrees Celsius") + 
+  bp_theme
 ```
