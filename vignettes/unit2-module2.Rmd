@@ -155,17 +155,19 @@ plot(farmersrpts, pch = 19, col = "black", add = TRUE)
 
 Task 5
 
-Use geodata’s worldclim_country function to grab WorldClim’s mean temperature (“tavg”) dataset at a resolution of 2.5 (note this is not degrees, but minutes of a degree), and download it to somewhere on your local disk. That will give a SpatRaster with 12 layers, with each layer representing the average monthly temperature for each grid cell on the planet. Calculate the annual mean temperature for each cell, and then mask the result using districts to get your final raster, zamtmean. Plot the result. (Ref: Chunk 17, 48)
+
 ```{r}
-### chunk 17
-chirpsz <- mask(x = chirps, mask = districts)
-
-set.seed(1)
-ind <- sample(1:nlyr(chirpsz), size = 3)
-plot(chirpsz[[ind]], axes = FALSE, nr = 1, mar = c(1, 0.5, 1, 4))
-
-### chunnk 48
-wcprec <- geodata::worldclim_country(var = "prec", res = 2.5, 
+wctemp <- geodata::worldclim_country(var = "tavg", res = 2.5, 
                                      country = "Zambia", path = tempdir())
-zamprec <- mask(app(wcprec, sum), districts)
+
+zamtmean <- mask(app(wctemp, mean), districts)
+zamtmean
+
+plot(zamtmean, axes = FALSE, nr = 1, mar = c(1, 0.5, 1, 4))
+
+```
+
+Task 6
+```{r}
+
 ```
