@@ -58,13 +58,8 @@ Task 2
 s2_1d <- disagg(x = s[[1]], fact = 4, method = 'bilinear') 
 s2_1d
 
-
 s2_1gt35 <- s2_1d > 35
 s2_1gt35
-
-plot(s2_1gt35)
-plot(app(s2_1gt35, sum))
-
 
 s2_1gt35[s2_1gt35 == 0] <- NA
 
