@@ -169,5 +169,53 @@ plot(zamtmean, axes = FALSE, nr = 1, mar = c(1, 0.5, 1, 4))
 
 Task 6
 ```{r}
+trng <- global(zamtmean, range, na.rm = TRUE)
+reclmat <- cbind(c(floor(trng[1]), 20, 24), c(20, 24, ceiling(trng[2])), 1:3)
+
+zamtclass <- classify(x = zamtmean, rcl = unlist(reclmat), include.lowest = TRUE)
+
+cols <- c("blue", "yellow2", "red")
+
+plot_noaxes(zamtclass, legend = FALSE, main = "Average Temps", col = cols,
+            mar = c(1, 1, 1, 3))
+legend(x = "bottomright",
+       col = cols, pch = 15, pt.cex = 3,  bty = "n",
+       legend = c('Low', 'Medium', 'High'))
+```
+
+Ceiling and floor are rounding functions. To be specific...
+
+(Formal definitions from the help page)
+The floor function takes a single numeric argument and gives a numeric vector
+containing the largest integers not greater than the initial single single
+numeric argument.
+
+The ceiling function takes a single numeric argument and gives a numeric
+vector that holds the smallest integers that aren't less than the initial 
+single numeric argument.
+
+(Simple summary)
+Floor gives the largest integer that isn't greater than the input. While 
+ceiling gives the smallest integer that isn't less than the input.
+
+Task 7
+```{r}
+wcprec <- geodata::worldclim_country(var = "prec", res = 2.5, 
+                                     country = "Zambia", path = tempdir())
+zamprec <- mask(app(wcprec, mean), districts)
+
+zamprec_rs <- resample(x = zamprec, y = zamtclass, method = "near")  # match extent
+z <- zonal(x = zamprec_rs, z = zamtclass, fun = "mean")
+
+subsz <- z %>% dplyr::select(1:2)
+subsz
+
+zamprecz <- subst(x = zamtclass, from = subsz[, 1], to = subsz[, 2])
+zamprecz
+
+cols <- c("yellow2", "green3", "blue")
+plot_noaxes(zamprecz)
 
 ```
+
+Recreate the zamprec dataset (chunk 48), then calculate the mean precipitation within each temperature zone defined by zamtclass. Call the resulting matrix z. Map the mean zonal precipitation values in z onto each temperature zone (using the subst function with zamtclass as the target; remember that zonal returns a matrix, and that subst requires equal length vector for the “from” and “to” values. Call the new raster zamprecz, and then plot it using plot_noaxes, with a custom legend (as done in Task 6), using the rounded zonal mean values (rounded) as the legend labels (legend = round(z$mean)). Use colors “yellow2”, “green3”, and “blue” for the three classes (Ref: Chunks 32, 33, 39)
