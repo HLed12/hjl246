@@ -47,6 +47,8 @@ rrandn <- r
 values(rrandn) <- rnorm(n = ncell(rrandn), mean = 30, sd = 5)
 rrandn
 
+
+par(mar = rep(0, 4))
 s <- c(rsamp, rrandn) %>% 
   mask(x = ., mask = districts_ss)
 
@@ -63,11 +65,13 @@ s2_1gt35
 
 s2_1gt35[s2_1gt35 == 0] <- NA
 
-s2poly <- as.points(x = s2_1gt35) %>% 
+s2poly <- as.polygons(x = s2_1gt35) %>% 
   st_as_sf
 
 plot(s2_1d, main = paste0("Disagg bilinear"))
-plot(s2poly, add = TRUE)
+plot(s2poly %>% st_geometry(), add = TRUE)
+
+
 ```
 
 Task 3
@@ -167,7 +171,7 @@ Task 7
 ```{r}
 wcprec <- geodata::worldclim_country(var = "prec", res = 2.5, 
                                      country = "Zambia", path = tempdir())
-zamprec <- mask(app(wcprec, mean), districts)
+zamprec <- mask(app(wcprec, sum), districts)
 
 zamprec_rs <- resample(x = zamprec, y = zamtclass, method = "near")  # match extent
 z <- zonal(x = zamprec_rs, z = zamtclass, fun = "mean")
@@ -181,8 +185,8 @@ cols <- c("yellow2", "green3", "blue")
 
 plot_noaxes(zamprecz, legend = FALSE, main = "Average Rainfall", col = cols, 
             mar = c(1, 1, 1, 3))
-legend(x = "bottomright", col = cols, pch = 15, pt.cex = 3,  bty = "n",
-       legend = round(z$mean.1))
+legend(x = "top", col = rev(cols), pch = 15, pt.cex = 3,  bty = "n",
+       legend = round(z$sum))
 ```
 
 Task 8
@@ -192,7 +196,7 @@ dem <- geodata::elevation_30s(country = "ZMB", path = tempdir())
 dem5 <- aggregate(x = dem, fact = 6)
 dem5 # resolution is 0.05
 
-dem5 <- mask(x = dem, mask = districts)
+dem5 <- mask(x = dem5, mask = districts)
 
 aspect <- terrain(x = dem5, v = 'aspect', unit = 'degrees')
 west <- (aspect > 247.5 & aspect < 292.5)
